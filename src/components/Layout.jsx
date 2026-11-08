@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom'
+import { useAuth } from '../lib/auth'
 import { BUSINESS } from '../lib/config'
+import { isSupabaseReady } from '../lib/supabase'
 import { waLink } from '../lib/whatsapp'
 import { useConsultation } from './Consultation'
 import Icon, { WhatsAppIcon } from './Icon'
@@ -30,8 +32,12 @@ function Brand({ light = false }) {
 function Header() {
   const [menu, setMenu] = useState(false)
   const { open } = useConsultation()
+  const { user, isAdmin } = useAuth()
   const location = useLocation()
   useEffect(() => setMenu(false), [location.pathname])
+  const acct = !isSupabaseReady ? null : user
+    ? { to: isAdmin ? '/admin' : '/account', label: isAdmin ? 'Admin' : 'My orders' }
+    : { to: '/login', label: 'Log in' }
 
   return (
     <header className="sticky top-0 z-40 border-b border-line/70 bg-white/95 backdrop-blur">
@@ -46,6 +52,7 @@ function Header() {
           ))}
         </nav>
         <div className="hidden items-center gap-3 lg:flex">
+          {acct && <Link to={acct.to} className="text-sm font-semibold text-navy no-underline hover:text-library">{acct.label}</Link>}
           <Link to="/order" className="btn-outline">Place an order</Link>
           <button onClick={() => open()} className="btn-primary">Free consultation</button>
         </div>
@@ -59,6 +66,7 @@ function Header() {
             {NAV.map((n) => (
               <NavLink key={n.to} to={n.to} className="border-b border-line/60 py-3.5 font-medium text-navy no-underline last:border-0">{n.label}</NavLink>
             ))}
+            {acct && <NavLink to={acct.to} className="border-b border-line/60 py-3.5 font-medium text-navy no-underline">{acct.label}</NavLink>}
             <div className="grid grid-cols-2 gap-3 py-4">
               <Link to="/order" className="btn-outline">Place an order</Link>
               <button onClick={() => open()} className="btn-primary">Consultation</button>
