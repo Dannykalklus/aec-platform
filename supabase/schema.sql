@@ -237,6 +237,13 @@ alter table public.messages     enable row level security;
 alter table public.coupons      enable row level security;
 alter table public.audit_log    enable row level security;
 
+-- Table access for the website's roles. Row-level security below decides
+-- which rows each person actually sees; these grants only open the door.
+grant usage on schema public to anon, authenticated;
+grant select on public.services to anon;
+grant select, insert, update, delete on all tables in schema public to authenticated;
+grant usage, select on all sequences in schema public to authenticated;
+
 -- Profiles: own row, admin all. Users may edit contact fields only, never role.
 drop policy if exists profiles_self_read on public.profiles;
 create policy profiles_self_read on public.profiles for select using (id = auth.uid() or public.is_admin());
