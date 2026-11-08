@@ -1,5 +1,5 @@
 -- =====================================================================
--- AEC Thesis & Assignment Platform: database schema (Week 1)
+-- AEC Thesis & Assignment Platform: database schema
 -- Run once in Supabase: SQL Editor > New query > paste > Run.
 -- Covers PRD section 11, the security rules in sections 6 and 7,
 -- guest orders, the 50% deposit rule and one-use MoMo transaction IDs.
@@ -240,6 +240,7 @@ alter table public.audit_log    enable row level security;
 -- Table access for the website's roles. Row-level security below decides
 -- which rows each person actually sees; these grants only open the door.
 grant usage on schema public to anon, authenticated;
+revoke all on all tables in schema public from anon;   -- visitors use functions only
 grant select on public.services to anon;
 grant select, insert, update, delete on all tables in schema public to authenticated;
 grant usage, select on all sequences in schema public to authenticated;
