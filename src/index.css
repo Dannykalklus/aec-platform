@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-white font-sans text-ink antialiased; font-size: 16px; }
+  h1, h2, h3, h4 { @apply font-display text-navy; letter-spacing: -0.01em; }
+  a { @apply text-library; }
+  :focus-visible { outline: 3px solid #1F6FD6; outline-offset: 2px; }
+}
+
+@layer components {
+  .wrap { @apply mx-auto w-full max-w-site px-5 sm:px-8; }
+  .eyebrow { @apply font-display text-xs font-semibold uppercase tracking-[0.25em] text-scholar; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-3 font-display text-sm font-semibold no-underline transition-colors; }
+  .btn-primary { @apply btn bg-action text-white hover:bg-action-hover; }
+  .btn-navy { @apply btn bg-navy text-white hover:bg-navy-700; }
+  .btn-ghost { @apply btn border border-white/30 text-white hover:bg-white/10; }
+  .btn-outline { @apply btn border border-line bg-white text-navy hover:border-navy; }
+  .card { @apply rounded-2xl border border-line bg-white p-6 shadow-card; }
+  .field { @apply w-full rounded-lg border border-line bg-white px-3.5 py-2.5 text-ink placeholder:text-slate/70 focus:border-library focus:outline-none focus:ring-2 focus:ring-library/20; }
+  .label { @apply mb-1.5 block text-sm font-medium text-ink; }
+  .prose-legal h2 { @apply mt-10 mb-3 text-xl; }
+  .prose-legal p, .prose-legal li { @apply mb-3 leading-relaxed text-ink/90; }
+  .prose-legal ul { @apply list-disc pl-6; }
+}
